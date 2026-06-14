@@ -7,6 +7,17 @@ AI Loan Sales Coach
 - Interactive Demo: https://ai-rita.github.io/ai-loan-sales-coach/
 - Sample Training Report: https://ai-rita.github.io/ai-loan-sales-coach/sample-report.html
 
+## Screenshots
+
+### Practice Input Page
+![Practice Input Page](screenshots/demo-input-page.png)
+
+### Scoring and Key Question Checklist
+![Scoring Section](screenshots/scoring-section.png)
+
+### Coaching Feedback Report
+![Coaching Feedback](screenshots/coaching-feedback.png)
+
 ---
 
 1. Project Overview
