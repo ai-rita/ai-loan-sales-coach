@@ -1,7 +1,14 @@
 AI Loan Sales Coach
 > 信貸電銷陪練與「問對問題」回饋工具  
 > AI-powered telesales coaching prototype for loan sales objection handling.
+
+## Live Demo
+
+- Interactive Demo: https://ai-rita.github.io/ai-loan-sales-coach/
+- Sample Training Report: https://ai-rita.github.io/ai-loan-sales-coach/sample-report.html
+
 ---
+
 1. Project Overview
 AI Loan Sales Coach 是一個針對信貸電銷場景設計的 AI 陪練原型。  
 它模擬客戶常見的反對問題，讓業務人員輸入自己的回覆，系統再依據「問對問題」檢核表產生訓練報告。
