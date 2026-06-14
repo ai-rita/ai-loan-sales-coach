@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>利率反對處理 · 電銷陪練逐字稿與教練報告</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@500;700;900&family=Noto+Sans+TC:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#1E2B30;
+    --ink-text:#EDE9DD;
+    --ink-text-soft:#C7C2B2;
+    --paper:#ECEEE5;
+    --card:#F8F9F2;
+    --text:#25302C;
+    --text-soft:#5C6760;
+    --customer:#B0623C;
+    --customer-bg:#F5E4D6;
+    --sales:#2D6358;
+    --sales-bg:#DCEAE4;
+    --gold:#AD8A3C;
+    --gold-bg:#F2E8D3;
+    --good:#4C7A52;
+    --good-bg:#E1ECE1;
+    --partial:#BD8A3E;
+    --partial-bg:#F5EDD9;
+    --miss:#AD5740;
+    --miss-bg:#F6E3DD;
+    --line:#D7DACB;
+    --font-display:'Noto Serif TC',serif;
+    --font-body:'Noto Sans TC',sans-serif;
+    --font-mono:'IBM Plex Mono',monospace;
+  }
+
+  *{ box-sizing:border-box; }
+
+  body{
+    margin:0;
+    font-family:var(--font-body);
+    background:var(--paper);
+    color:var(--text);
+    line-height:1.8;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  .page{ max-width:920px; margin:0 auto; }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    background:var(--ink);
+    color:var(--ink-text);
+    padding:56px 48px 48px;
+  }
+  .hero-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    gap:32px;
+    flex-wrap:wrap;
+  }
+  .hero-main{ flex:1; min-width:260px; }
+  .eyebrow{
+    font-family:var(--font-mono);
+    font-size:12px;
+    letter-spacing:.2em;
+    text-transform:uppercase;
+    color:var(--gold);
+    margin-bottom:18px;
+  }
+  .hero h1{
+    font-family:var(--font-display);
+    font-size:clamp(30px,6vw,50px);
+    font-weight:900;
+    margin:0 0 6px;
+    letter-spacing:.02em;
+  }
+  .hero .subtitle{
+    font-size:15px;
+    color:var(--ink-text-soft);
+    margin:0 0 24px;
+  }
+  .profile{ display:flex; flex-wrap:wrap; gap:8px; }
+  .chip{
+    font-family:var(--font-mono);
+    font-size:11.5px;
+    padding:6px 12px;
+    border:1px solid rgba(237,233,221,.22);
+    border-radius:999px;
+    color:var(--ink-text);
+    white-space:nowrap;
+  }
+  .score-badge{
+    text-align:center;
+    background:rgba(237,233,221,.05);
+    border:1px solid rgba(237,233,221,.18);
+    border-radius:16px;
+    padding:18px 30px;
+    flex-shrink:0;
+  }
+  .score-badge .num{
+    font-family:var(--font-display);
+    font-size:54px;
+    font-weight:900;
+    color:var(--gold);
+    line-height:1;
+  }
+  .score-badge .denom{
+    font-family:var(--font-mono);
+    font-size:12px;
+    color:var(--ink-text-soft);
+    letter-spacing:.15em;
+    margin-top:4px;
+  }
+  .score-badge .label{
+    font-family:var(--font-mono);
+    font-size:10.5px;
+    letter-spacing:.2em;
+    color:var(--ink-text-soft);
+    text-transform:uppercase;
+    margin-bottom:6px;
+  }
+
+  /* ---------- SECTION COMMON ---------- */
+  section{ padding:48px 48px; }
+  .section-head{ margin-bottom:28px; max-width:640px; }
+  .section-num{
+    font-family:var(--font-mono);
+    font-size:12px;
+    color:var(--gold);
+    letter-spacing:.25em;
+  }
+  .section-head h2{
+    font-family:var(--font-display);
+    font-size:28px;
+    font-weight:700;
+    margin:6px 0 10px;
+  }
+  .section-head p{
+    color:var(--text-soft);
+    font-size:14px;
+    margin:0;
+  }
+
+  /* ---------- CHECKLIST ---------- */
+  .checklist{ background:var(--card); border-top:1px solid var(--line); border-bottom:1px solid var(--line); }
+  .checklist-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(190px,1fr));
+    gap:12px;
+  }
+  .check-card{
+    background:var(--paper);
+    border:1px solid var(--line);
+    border-left:4px solid var(--line);
+    border-radius:4px 10px 10px 4px;
+    padding:16px 18px;
+  }
+  .check-card.status-done{ border-left-color:var(--good); }
+  .check-card.status-partial{ border-left-color:var(--partial); }
+  .check-card.status-miss{ border-left-color:var(--miss); }
+  .check-num{
+    font-family:var(--font-mono);
+    font-size:11px;
+    color:var(--text-soft);
+    letter-spacing:.15em;
+  }
+  .check-q{
+    font-weight:700;
+    font-size:14px;
+    margin:6px 0 10px;
+  }
+  .check-status{
+    display:inline-block;
+    font-family:var(--font-mono);
+    font-size:11px;
+    letter-spacing:.05em;
+    padding:3px 10px;
+    border-radius:999px;
+    margin-bottom:10px;
+  }
+  .status-done .check-status{ background:var(--good-bg); color:var(--good); }
+  .status-partial .check-status{ background:var(--partial-bg); color:var(--partial); }
+  .status-miss .check-status{ background:var(--miss-bg); color:var(--miss); }
+  .check-note{
+    font-size:12.5px;
+    color:var(--text-soft);
+    margin:0;
+  }
+
+  /* ---------- TRANSCRIPT ---------- */
+  .round-label{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    font-family:var(--font-mono);
+    font-size:11px;
+    letter-spacing:.25em;
+    text-transform:uppercase;
+    color:var(--text-soft);
+    margin:32px 0 14px;
+  }
+  .round-label:first-of-type{ margin-top:0; }
+  .round-label::before,
+  .round-label::after{
+    content:'';
+    flex:1;
+    height:1px;
+    background:var(--line);
+  }
+  .msg{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-left:4px solid var(--line);
+    border-radius:4px 10px 10px 4px;
+    padding:16px 22px;
+    margin-bottom:10px;
+  }
+  .msg.customer{ border-left-color:var(--customer); }
+  .msg.customer .speaker{ color:var(--customer); }
+  .msg.sales{ border-left-color:var(--sales); }
+  .msg.sales .speaker{ color:var(--sales); }
+  .speaker{
+    font-family:var(--font-mono);
+    font-size:11px;
+    letter-spacing:.2em;
+    text-transform:uppercase;
+    display:block;
+    margin-bottom:8px;
+    color:var(--text-soft);
+  }
+  .msg p{ margin:0; font-size:14.5px; }
+  .annotation{
+    font-family:var(--font-mono);
+    font-size:11.5px;
+    color:var(--text-soft);
+    margin:-2px 0 14px;
+    padding-left:6px;
+    display:flex;
+    align-items:center;
+    gap:8px;
+    flex-wrap:wrap;
+  }
+  .annotation .tag{
+    font-family:var(--font-mono);
+    font-size:11px;
+    background:var(--gold-bg);
+    color:var(--gold);
+    padding:3px 10px;
+    border-radius:999px;
+  }
+  .end-marker{
+    text-align:center;
+    font-family:var(--font-mono);
+    font-size:11px;
+    letter-spacing:.25em;
+    text-transform:uppercase;
+    color:var(--text-soft);
+    margin:36px 0 0;
+    padding-top:20px;
+    border-top:1px dashed var(--line);
+  }
+
+  /* ---------- REPORT ---------- */
+  .score-overview{ margin-bottom:32px; }
+  .score-total{
+    display:flex;
+    align-items:baseline;
+    gap:10px;
+    margin-bottom:22px;
+    font-family:var(--font-display);
+  }
+  .score-total .big{
+    font-size:46px;
+    font-weight:900;
+    color:var(--gold);
+  }
+  .score-total .of{
+    font-size:18px;
+    color:var(--text-soft);
+    font-family:var(--font-mono);
+  }
+  .bars{ display:flex; flex-direction:column; gap:13px; }
+  .bar-row{
+    display:grid;
+    grid-template-columns:140px 1fr 56px;
+    align-items:center;
+    gap:14px;
+  }
+  .bar-label{ font-size:13px; }
+  .bar-track{
+    background:var(--line);
+    border-radius:999px;
+    height:8px;
+    overflow:hidden;
+  }
+  .bar-fill{
+    height:100%;
+    background:var(--sales);
+    border-radius:999px;
+  }
+  .bar-score{
+    font-family:var(--font-mono);
+    font-size:12px;
+    color:var(--text-soft);
+    text-align:right;
+  }
+
+  .report-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
+    gap:16px;
+    margin:32px 0;
+  }
+  .report-card{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:12px;
+    padding:20px 22px;
+  }
+  .report-card h3{
+    font-family:var(--font-display);
+    font-size:15.5px;
+    font-weight:700;
+    margin:0 0 14px;
+    padding-bottom:12px;
+    border-bottom:1px solid var(--line);
+  }
+  .report-card ul{
+    margin:0;
+    padding:0;
+    list-style:none;
+    display:flex;
+    flex-direction:column;
+    gap:11px;
+  }
+  .report-card li{
+    font-size:13px;
+    padding-left:18px;
+    position:relative;
+  }
+  .report-card li::before{
+    content:'';
+    position:absolute;
+    left:0; top:7px;
+    width:6px; height:6px;
+    border-radius:50%;
+  }
+  .report-card.good li::before{ background:var(--good); }
+  .report-card.miss li::before{ background:var(--miss); }
+  .report-card.improve li::before{ background:var(--partial); }
+
+  .rewrite-box{
+    background:var(--gold-bg);
+    border-left:4px solid var(--gold);
+    border-radius:0 12px 12px 0;
+    padding:20px 24px;
+    margin:24px 0;
+  }
+  .rewrite-box .label{
+    font-family:var(--font-mono);
+    font-size:11px;
+    letter-spacing:.2em;
+    color:var(--gold);
+    text-transform:uppercase;
+    margin-bottom:10px;
+  }
+  .rewrite-box p{ margin:0; font-size:14.5px; }
+
+  .callout{
+    border-radius:12px;
+    padding:20px 24px;
+  }
+  .callout.next{ background:var(--sales); color:#EAF3EF; }
+  .callout.gold{ background:var(--gold); color:#2E2412; }
+  .callout .label{
+    font-family:var(--font-mono);
+    font-size:11px;
+    letter-spacing:.2em;
+    text-transform:uppercase;
+    opacity:.75;
+    margin-bottom:8px;
+  }
+  .callout p{ margin:0; font-size:14.5px; font-weight:500; }
+
+  /* ---------- DISCUSSION ---------- */
+  .discuss-card{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:26px 28px;
+    margin-bottom:20px;
+  }
+  .discuss-q-label{
+    font-family:var(--font-mono);
+    font-size:11px;
+    letter-spacing:.2em;
+    text-transform:uppercase;
+    color:var(--customer);
+    margin-bottom:10px;
+  }
+  .discuss-q-text{
+    font-size:14px;
+    color:var(--text-soft);
+    border-left:3px solid var(--customer);
+    padding-left:14px;
+    margin:0 0 18px;
+  }
+  .discuss-a p{ margin:0 0 14px; font-size:14.5px; }
+  .discuss-a p:last-child{ margin-bottom:0; }
+  .insight-box{
+    background:var(--paper);
+    border:1px dashed var(--line);
+    border-radius:10px;
+    padding:14px 18px;
+    margin:14px 0;
+    font-size:13.5px;
+    color:var(--text-soft);
+  }
+  .insight-box strong{ color:var(--text); }
+  .honest-script{
+    background:var(--sales-bg);
+    border-left:4px solid var(--sales);
+    border-radius:0 12px 12px 0;
+    padding:18px 22px;
+    margin:14px 0;
+  }
+  .honest-script .label{
+    font-family:var(--font-mono);
+    font-size:11px;
+    letter-spacing:.2em;
+    color:var(--sales);
+    text-transform:uppercase;
+    margin-bottom:10px;
+  }
+  .honest-script p{ margin:0; font-size:14px; }
+  .reason-list{ display:flex; flex-direction:column; gap:16px; margin:14px 0; }
+  .reason-item{ display:flex; gap:14px; }
+  .reason-num{
+    font-family:var(--font-mono);
+    font-weight:700;
+    font-size:14px;
+    color:var(--gold);
+    flex-shrink:0;
+    padding-top:2px;
+  }
+  .reason-body p{ margin:0; font-size:14px; }
+  .reason-body .reason-title{
+    font-weight:700;
+    font-size:14.5px;
+    margin:0 0 4px;
+    font-family:var(--font-display);
+  }
+
+  footer{
+    padding:32px 48px 56px;
+    text-align:center;
+    color:var(--text-soft);
+    font-size:12px;
+    font-family:var(--font-mono);
+    letter-spacing:.05em;
+  }
+
+  @media (max-width:640px){
+    .hero, section{ padding:36px 22px; }
+    .hero h1{ font-size:30px; }
+    .bar-row{ grid-template-columns:96px 1fr 46px; }
+    .bar-label{ font-size:12px; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- ===== HERO ===== -->
+  <header class="hero">
+    <div class="hero-top">
+      <div class="hero-main">
+        <div class="eyebrow">AI 信貸電銷陪練教練 · 訓練紀錄</div>
+        <h1>利率反對處理</h1>
+        <p class="subtitle">陪練逐字稿與教練報告</p>
+        <div class="profile">
+          <span class="chip">35 歲上班族</span>
+          <span class="chip">貸款需求 80 萬</span>
+          <span class="chip">用途：整合負債＋生活週轉</span>
+          <span class="chip">已詢問他行・尚未確認條件</span>
+          <span class="chip">對電銷有防備心，重視月付金／額度／撥款速度</span>
+        </div>
+      </div>
+      <div class="score-badge">
+        <div class="label">總分</div>
+        <div class="num">65</div>
+        <div class="denom">/ 100</div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===== KEY QUESTION CHECKLIST ===== -->
+  <section class="checklist">
+    <div class="section-head">
+      <div class="section-num">01 — 現場檢核</div>
+      <h2>5 個關鍵問題</h2>
+      <p>這 5 題是「利率反對處理」的標準動線。下表標示本次對話中，業務是否主動問到、客戶是否主動透露，以及實際發生了什麼。</p>
+    </div>
+    <div class="checklist-grid">
+      <div class="check-card status-partial">
+        <div class="check-num">Q1</div>
+        <div class="check-q">客戶比較的是哪一家銀行？</div>
+        <span class="check-status">部分問到</span>
+        <p class="check-note">業務有問，但客戶刻意不透露行名，只確認「有去問過一家」。</p>
+      </div>
+      <div class="check-card status-miss">
+        <div class="check-num">Q2</div>
+        <div class="check-q">對方給的利率大約是多少？</div>
+        <span class="check-status">未問到</span>
+        <p class="check-note">客戶主動說「年利率3%多一點」，業務沒有針對這點再追問或核對。</p>
+      </div>
+      <div class="check-card status-miss">
+        <div class="check-num">Q3</div>
+        <div class="check-q">對方的期數與月付金是多少？</div>
+        <span class="check-status">未問到</span>
+        <p class="check-note">客戶主動透露「6年72期、月付約1.3萬」，業務同樣沒有主動詢問。</p>
+      </div>
+      <div class="check-card status-done">
+        <div class="check-num">Q4</div>
+        <div class="check-q">最在意利率／額度／月付金，還是撥款速度？</div>
+        <span class="check-status">已問到</span>
+        <p class="check-note">業務有問，但與另外兩題一次拋出，客戶反映「你一次問這麼多」。</p>
+      </div>
+      <div class="check-card status-done">
+        <div class="check-num">Q5</div>
+        <div class="check-q">若條件接近，是否願意送件比較？</div>
+        <span class="check-status">已問到</span>
+        <p class="check-note">業務在最後一回合明確提出送件比較的邀約。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== TRANSCRIPT ===== -->
+  <section class="transcript">
+    <div class="section-head">
+      <div class="section-num">02 — 逐字稿</div>
+      <h2>對話紀錄</h2>
+      <p>開場由客戶提出利率反對，共進行 4 個回合。每個回合為「業務回覆 → 客戶回應」，標籤標示對應到的關鍵問題。</p>
+    </div>
+
+    <div class="round-label">開場</div>
+    <div class="msg customer">
+      <span class="speaker">客戶</span>
+      <p>你們利率太高了吧，我朋友說別家銀行比較低。</p>
+    </div>
+
+    <div class="round-label">回合 1</div>
+    <div class="msg sales">
+      <span class="speaker">業務</span>
+      <p>我了解，利率確實是很多客戶會比較的重點。不過實際利率還是要看審核結果，我可以先幫您初步看一下條件。</p>
+    </div>
+    <div class="msg customer">
+      <span class="speaker">客戶</span>
+      <p>其實我也不是要跟你比價格而已啦，主要是我已經有問過一家了，如果你們條件沒有比較好，那我就沒必要再花時間了。你們利率大概可以到多少？</p>
+    </div>
+
+    <div class="round-label">回合 2</div>
+    <div class="msg sales">
+      <span class="speaker">業務</span>
+      <p>您目前比較的是哪一家銀行？對方給您的利率大約是多少？您最在意的是利率、額度、月付金，還是撥款速度？</p>
+    </div>
+    <div class="annotation">
+      <span class="tag">Q1 Q2 Q4</span>
+      <span>一次拋出三個問題</span>
+    </div>
+    <div class="msg customer">
+      <span class="speaker">客戶</span>
+      <p>欸……你一次問這麼多，我是要回答哪個啦（笑）。銀行的話……我先不講名字好了，反正就是有去問過，他們說年利率大概3%多一點，期數是6年。我自己算了一下月付金大概一萬三左右。其實我最在意的不只是利率耶，我比較怕的是每個月要繳多少，還有萬一急用錢的話多久能撥下來，這個我也想知道。</p>
+    </div>
+
+    <div class="round-label">回合 3</div>
+    <div class="msg sales">
+      <span class="speaker">業務</span>
+      <p>謝謝你願意跟我說你的想法。6年72期、月付金1.3萬左右，如果利率是3趴多，我們最長期數可以到84期，以100萬來說月付金跟你現在的一萬三差不多。你每個月的收支規劃方便跟我分享一下嗎？我們可以一起討論看看。</p>
+    </div>
+    <div class="msg customer">
+      <span class="speaker">客戶</span>
+      <p>欸，等一下，我要貸的是80萬耶，你怎麼跟我說100萬？而且你說月付金差不多，那不就是你們把期數拉長到84期，用時間換出來的而已嗎？這樣感覺不算是利率比較低吧？收支的部分……這個我比較不想在電話裡講太細啦，畢竟才剛聊沒多久。我比較想知道的是，如果我這80萬真的送件給你們，大概多久可以知道核准結果、撥款下來？還有你們的利率最低到底大概是多少，給我一個範圍我自己評估一下。</p>
+    </div>
+
+    <div class="round-label">回合 4</div>
+    <div class="msg sales">
+      <span class="speaker">業務</span>
+      <p>我理解你的疑慮。我的意思是，在條件接近的情況下，期數拉長、分攤下來可以對應到比較大的額度，這是正常的現象。撥款的話，快的話兩個工作天，明天下午就會有結果；如果審核過程中需要你補件確認資料，可能會拉到3到4天。如果條件接近，您會願意送件比較看看嗎？因為資料還沒進來，我這邊還沒辦法回覆準確的利率數字會落在哪個區間。</p>
+    </div>
+    <div class="annotation">
+      <span class="tag">Q5</span>
+      <span>邀約送件比較，但仍未回應利率範圍</span>
+    </div>
+
+    <div class="end-marker">角色扮演結束</div>
+  </section>
+
+  <!-- ===== REPORT ===== -->
+  <section class="report">
+    <div class="section-head">
+      <div class="section-num">03 — 訓練報告</div>
+      <h2>評分與回饋</h2>
+    </div>
+
+    <div class="score-overview">
+      <div class="score-total">
+        <span class="big">65</span>
+        <span class="of">/ 100</span>
+      </div>
+      <div class="bars">
+        <div class="bar-row">
+          <span class="bar-label">回應客戶情緒</span>
+          <div class="bar-track"><div class="bar-fill" style="width:70%"></div></div>
+          <span class="bar-score">14 / 20</span>
+        </div>
+        <div class="bar-row">
+          <span class="bar-label">問到關鍵問題</span>
+          <div class="bar-track"><div class="bar-fill" style="width:60%"></div></div>
+          <span class="bar-score">18 / 30</span>
+        </div>
+        <div class="bar-row">
+          <span class="bar-label">釐清真正疑慮</span>
+          <div class="bar-track"><div class="bar-fill" style="width:70%"></div></div>
+          <span class="bar-score">14 / 20</span>
+        </div>
+        <div class="bar-row">
+          <span class="bar-label">提供下一步</span>
+          <div class="bar-track"><div class="bar-fill" style="width:60%"></div></div>
+          <span class="bar-score">12 / 20</span>
+        </div>
+        <div class="bar-row">
+          <span class="bar-label">語氣自然不硬推</span>
+          <div class="bar-track"><div class="bar-fill" style="width:70%"></div></div>
+          <span class="bar-score">7 / 10</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="report-grid">
+      <div class="report-card good">
+        <h3>表現好的地方</h3>
+        <ul>
+          <li>一開始先回應「利率是大家會比較的重點」，沒有直接反駁客戶，緩解了防備心。</li>
+          <li>有問到「比較哪家銀行、對方利率、客戶最在意什麼」，方向正確，也成功讓客戶說出真實顧慮（月付金＋撥款速度）。</li>
+          <li>第三、四輪用「謝謝你願意分享」「我理解你的疑慮」回應情緒，語氣相對柔軟。</li>
+          <li>具體回答撥款時間（2個工作天 vs 3–4天），正好對應客戶在意的「撥款速度」，是很好的命中。</li>
+        </ul>
+      </div>
+      <div class="report-card miss">
+        <h3>漏問的關鍵問題</h3>
+        <ul>
+          <li>沒有明確問到「對方的期數與月付金是多少」，這個資訊是客戶自己主動講出來的，不是業務問到的。</li>
+          <li>客戶最後明確要求「給我一個利率範圍」，業務完全沒有給出任何範圍，等於沒有回應這個問題。</li>
+        </ul>
+      </div>
+      <div class="report-card improve">
+        <h3>可以改善的地方</h3>
+        <ul>
+          <li>第二輪一次問了三個問題（哪家銀行、利率多少、最在意什麼），客戶直接吐槽「你一次問這麼多」，顯得像審問；建議一次只問一個，等客戶回答完再接下一句。</li>
+          <li>第二輪舉例用「100萬」，但客戶要貸的是「80萬」，造成混淆，浪費了建立信任的機會。</li>
+          <li>客戶已明確問「給我範圍」，業務用「資料還沒進來無法回覆」整段迴避，會讓客戶覺得在打太極，不利後續邀約送件。</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="rewrite-box">
+      <div class="label">建議改寫</div>
+      <p>「了解，雖然最終利率要看審核結果，但以您80萬、整合負債周轉這個用途來說，目前案件大概落在年利率2字頭到3字頭初之間，信用條件好的話會比較靠近低的那一端。如果您願意，我們可以先幫您送一份初步試算，完全不收費也不影響信用，您拿到結果之後再跟另一家比較，這樣您手上就有實際數字可以做決定，您覺得這樣安排可以嗎？」</p>
+    </div>
+
+    <div class="callout next">
+      <div class="label">下一次練習重點</div>
+      <p>練習「一次只問一個問題」，並在舉例時使用客戶實際的貸款金額，避免造成混淆與信任流失。</p>
+    </div>
+  </section>
+
+  <!-- ===== EXTENDED DISCUSSION ===== -->
+  <section class="discussion">
+    <div class="section-head">
+      <div class="section-num">04 — 延伸討論</div>
+      <h2>從話術到真實績效</h2>
+      <p>練習結束後的兩個追問，討論「建議改寫」在真實案件中可能出現的落差，以及誠實面對劣勢時的應對方式。</p>
+    </div>
+
+    <div class="discuss-card">
+      <div class="discuss-q-label">Q · 話術 100 分，績效 0 分？</div>
+      <p class="discuss-q-text">今天客戶有負債整合的狀況，可以想見信用評分對利率的影響不會落在2～3%這個區間。如果照「建議改寫」的方式回答利率，卻沒有有效管理客戶預期，最後客戶還是會去辦別家——這樣不就是「練習100分，績效0分」嗎？</p>
+      <div class="discuss-a">
+        <p>這個觀察非常準，而且點出了「建議改寫」的一個實際漏洞。「年利率2字頭到3字頭初」這個數字，對信用良好、沒有負債整合需求的客戶或許合理；但這位客戶的情境是整合負債——通常代表名下已有多筆既存債務、負債比偏高，銀行在風險評估上會把他歸到風險係數較高的區間，實際核出來的利率很可能遠高於這個範圍。</p>
+        <p>如果業務照著這句話講出去，當下確實會讓客戶覺得「聽起來不錯，那我送件試試看」——話術層面是成功的。但等到實際對保、試算結果出來，如果利率跟口頭說的差距太大，客戶會有一種「被釣魚」的感覺，信任感瞬間崩盤，不只這次案件跑掉，連帶以後對這個業務、甚至這家銀行的所有溝通都會打折扣。</p>
+        <div class="insight-box"><strong>好的話術 ≠ 好的成果。</strong>真正厲害的業務，是在當下就做好「預期校準」——哪怕現在說出來的話沒那麼甜，但因為夠誠實，客戶後面拿到的數字落差不會太大，案件才留得住。</div>
+        <div class="honest-script">
+          <div class="label">誠實版開場</div>
+          <p>「跟您坦白說一下，因為您這次主要是整合負債，銀行審核時會比較看重您目前的負債狀況跟還款能力，所以最終利率不會像信用條件單純的客戶那麼低，這個我沒辦法跟您打保票。但反過來想，如果您現在外面同時有幾筆債務要還，把它整合成一筆、用一個固定可控的月付金，這個改善可能比利率數字本身更有意義。我建議先幫您跑一次試算，拿到真實數字之後再跟另一家比，這樣您才有可靠的依據，而不是先聽一個我給不出保證的數字。」</p>
+        </div>
+        <p>這樣雖然當下聽起來不是「我們利率很低」那種爽快答案，但它把客戶的期待錨定在合理範圍，後面落差不會太大，反而更容易真正成交、也不會留下被騙的感覺。</p>
+      </div>
+    </div>
+
+    <div class="discuss-card">
+      <div class="discuss-q-label">Q · 那何必送件你們家？</div>
+      <p class="discuss-q-text">那依你這麼說，就是利率不會比他行低，那我何必要送件你們家呢？</p>
+      <div class="discuss-a">
+        <p>即使利率真的不是最低，業務手上仍可能有幾個籌碼：</p>
+        <div class="reason-list">
+          <div class="reason-item">
+            <span class="reason-num">01</span>
+            <div class="reason-body">
+              <p class="reason-title">送件比較幾乎零成本，多一個議價籌碼</p>
+              <p>同期內多家聯徵查詢通常被視為比較行為，影響有限，對客戶來說成本幾乎是零——頂多花十分鐘填資料。客戶手上多一份「核准結果」，等於多一個談判籌碼，可以拿去跟原本那家銀行說「別家也核准了，條件是這樣，你們能不能再談」，這對客戶是純獲利的事。</p>
+            </div>
+          </div>
+          <div class="reason-item">
+            <span class="reason-num">02</span>
+            <div class="reason-body">
+              <p class="reason-title">利率不是唯一變數</p>
+              <p>如果這家銀行在「審核寬鬆度」「撥款速度」「是否需要保人或擔保」「提前還款違約金」「綁約期」這些地方比另一家更有彈性，那即使年利率高個0.5%～1%，整體划算程度未必輸。對於急用錢周轉的客戶，「兩天撥款」本身就有價值，有些人寧可多付一點利息也要快。</p>
+            </div>
+          </div>
+          <div class="reason-item">
+            <span class="reason-num">03</span>
+            <div class="reason-body">
+              <p class="reason-title">誠實的業務本身就是一種差異化</p>
+              <p>客戶已經對電銷有防備心，如果業務不畏戰、不亂報低價，老實說「我們不一定比較便宜，但你可以先看數字再決定」，這種態度本身會讓客戶覺得「這個業務不是在騙我」，留下的印象比單純報一個漂亮利率更深。即使這次沒成交，客戶下次有需求或身邊朋友有需求時，記住的可能是這個人。</p>
+            </div>
+          </div>
+        </div>
+        <p>但如果這家銀行的產品在所有維度上都真的比不過對方，那誠實到最後，確實就是「沒有理由送件」，業務也該放手——這不是話術失敗，而是這個客戶本來就不是這家銀行的合適客群。業務的價值不是「把每個客戶都簽下來」，而是「把真正適合的客戶留住，把不適合的客戶快速、體面地放掉」，這樣才能把時間花在真正有機會成交的名單上。</p>
+      </div>
+    </div>
+
+    <div class="callout gold">
+      <div class="label">延伸練習建議</div>
+      <p>當條件確實處於劣勢時，業務該如何判斷要繼續跟進，還是體面放手。</p>
+    </div>
+  </section>
+
+  <footer>AI 信貸電銷陪練教練 · 利率反對處理 · 訓練紀錄輸出</footer>
+
+</div>
+</body>
+</html>

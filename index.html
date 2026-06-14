@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>AI Loan Sales Coach v0.2 · 信貸電銷陪練工具</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@500;700;900&family=Noto+Sans+TC:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#1E2B30;
+    --ink-soft:#314046;
+    --ink-text:#EDE9DD;
+    --ink-text-soft:#C7C2B2;
+    --paper:#ECEEE5;
+    --card:#F8F9F2;
+    --text:#25302C;
+    --text-soft:#5C6760;
+    --customer:#B0623C;
+    --customer-bg:#F5E4D6;
+    --sales:#2D6358;
+    --sales-bg:#DCEAE4;
+    --gold:#AD8A3C;
+    --gold-bg:#F2E8D3;
+    --good:#4C7A52;
+    --good-bg:#E1ECE1;
+    --partial:#BD8A3E;
+    --partial-bg:#F5EDD9;
+    --miss:#AD5740;
+    --miss-bg:#F6E3DD;
+    --line:#D7DACB;
+    --font-display:'Noto Serif TC',serif;
+    --font-body:'Noto Sans TC',sans-serif;
+    --font-mono:'IBM Plex Mono',monospace;
+  }
+  *{ box-sizing:border-box; }
+  body{
+    margin:0;
+    font-family:var(--font-body);
+    background:var(--paper);
+    color:var(--text);
+    line-height:1.8;
+    -webkit-font-smoothing:antialiased;
+  }
+  .page{ max-width:1020px; margin:0 auto; }
+  .hero{
+    background:var(--ink);
+    color:var(--ink-text);
+    padding:54px 48px 46px;
+  }
+  .hero-top{ display:flex; justify-content:space-between; gap:32px; align-items:flex-start; flex-wrap:wrap; }
+  .eyebrow{
+    font-family:var(--font-mono);
+    font-size:12px;
+    letter-spacing:.22em;
+    text-transform:uppercase;
+    color:var(--gold);
+    margin-bottom:16px;
+  }
+  h1{
+    font-family:var(--font-display);
+    font-size:clamp(30px,5.5vw,50px);
+    font-weight:900;
+    letter-spacing:.02em;
+    margin:0 0 8px;
+  }
+  .hero p{ color:var(--ink-text-soft); max-width:700px; margin:0; }
+  .version-card{
+    min-width:170px;
+    padding:18px 22px;
+    border:1px solid rgba(237,233,221,.18);
+    background:rgba(237,233,221,.05);
+    border-radius:16px;
+  }
+  .version-card .label{ font-family:var(--font-mono); font-size:11px; letter-spacing:.2em; color:var(--ink-text-soft); text-transform:uppercase; }
+  .version-card .num{ font-family:var(--font-display); font-size:42px; font-weight:900; color:var(--gold); line-height:1; margin-top:7px; }
+  .chips{ display:flex; gap:8px; flex-wrap:wrap; margin-top:22px; }
+  .chip{ border:1px solid rgba(237,233,221,.22); color:var(--ink-text); border-radius:999px; padding:6px 12px; font-family:var(--font-mono); font-size:11.5px; }
+
+  section{ padding:44px 48px; }
+  .section-head{ max-width:760px; margin-bottom:26px; }
+  .section-num{ font-family:var(--font-mono); font-size:12px; color:var(--gold); letter-spacing:.24em; }
+  h2{ font-family:var(--font-display); font-size:28px; margin:5px 0 8px; }
+  .section-head p{ color:var(--text-soft); font-size:14px; margin:0; }
+
+  .flow{ background:var(--card); border-top:1px solid var(--line); border-bottom:1px solid var(--line); }
+  .flow-grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:12px; }
+  .flow-card{ background:var(--paper); border:1px solid var(--line); border-radius:14px; padding:18px 18px; min-height:126px; }
+  .flow-card .step{ font-family:var(--font-mono); color:var(--gold); letter-spacing:.15em; font-size:11px; }
+  .flow-card h3{ font-family:var(--font-display); font-size:17px; margin:8px 0 6px; }
+  .flow-card p{ color:var(--text-soft); margin:0; font-size:13px; line-height:1.7; }
+
+  .scenario-card{ background:var(--ink); color:var(--ink-text); border-radius:18px; padding:26px 28px; margin-bottom:22px; }
+  .scenario-card h3{ margin:0 0 8px; font-family:var(--font-display); font-size:22px; }
+  .scenario-card p{ color:var(--ink-text-soft); margin:0; font-size:14px; }
+  .scenario-facts{ display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:10px; margin-top:18px; }
+  .fact{ border:1px solid rgba(237,233,221,.16); border-radius:10px; padding:10px 12px; color:var(--ink-text); font-size:13px; }
+
+  .practice-grid{ display:grid; grid-template-columns:minmax(0,1fr); gap:18px; }
+  .round{ background:var(--card); border:1px solid var(--line); border-radius:16px; overflow:hidden; }
+  .round-head{ display:flex; align-items:center; justify-content:space-between; gap:14px; padding:14px 18px; background:#F1F2E9; border-bottom:1px solid var(--line); }
+  .round-title{ font-family:var(--font-mono); font-size:12px; letter-spacing:.18em; color:var(--text-soft); text-transform:uppercase; }
+  .round-hint{ font-size:12px; color:var(--text-soft); }
+  .dialogue{ padding:18px; display:grid; gap:12px; }
+  .msg{ border-left:4px solid var(--line); background:var(--paper); border-radius:4px 12px 12px 4px; padding:14px 16px; }
+  .msg.customer{ border-left-color:var(--customer); background:var(--customer-bg); }
+  .msg .speaker{ display:block; font-family:var(--font-mono); font-size:11px; letter-spacing:.18em; margin-bottom:6px; color:var(--customer); text-transform:uppercase; }
+  .msg p{ margin:0; font-size:14px; }
+  textarea{ width:100%; min-height:112px; resize:vertical; border:1px solid var(--line); border-radius:12px; padding:14px 16px; font-family:var(--font-body); font-size:14px; line-height:1.75; color:var(--text); background:white; }
+  textarea:focus{ outline:2px solid rgba(45,99,88,.24); border-color:var(--sales); }
+  .actions{ display:flex; gap:10px; flex-wrap:wrap; margin-top:22px; }
+  button{ border:0; border-radius:999px; padding:12px 18px; font-family:var(--font-body); font-weight:700; cursor:pointer; letter-spacing:.02em; }
+  .btn-primary{ background:var(--sales); color:white; }
+  .btn-secondary{ background:var(--gold-bg); color:#6F5524; }
+  .btn-ghost{ background:transparent; border:1px solid var(--line); color:var(--text-soft); }
+  button:hover{ filter:brightness(.96); transform:translateY(-1px); }
+
+  .report{ display:none; padding-top:20px; }
+  .report.visible{ display:block; }
+  .report-hero{ background:var(--ink); color:var(--ink-text); border-radius:20px; padding:32px; display:flex; justify-content:space-between; align-items:flex-start; gap:24px; flex-wrap:wrap; margin-bottom:28px; }
+  .report-hero h2{ color:var(--ink-text); margin:6px 0 4px; }
+  .report-hero p{ color:var(--ink-text-soft); margin:0; font-size:14px; }
+  .score-badge{ text-align:center; background:rgba(237,233,221,.05); border:1px solid rgba(237,233,221,.18); border-radius:16px; padding:16px 28px; min-width:150px; }
+  .score-badge .num{ font-family:var(--font-display); font-size:54px; font-weight:900; color:var(--gold); line-height:1; }
+  .score-badge .denom{ font-family:var(--font-mono); font-size:12px; color:var(--ink-text-soft); }
+  .checklist-grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(190px,1fr)); gap:12px; }
+  .check-card{ background:var(--card); border:1px solid var(--line); border-left:4px solid var(--line); border-radius:4px 12px 12px 4px; padding:16px 18px; }
+  .check-card.done{ border-left-color:var(--good); }
+  .check-card.partial{ border-left-color:var(--partial); }
+  .check-card.miss{ border-left-color:var(--miss); }
+  .check-num{ font-family:var(--font-mono); font-size:11px; color:var(--text-soft); letter-spacing:.15em; }
+  .check-q{ font-weight:700; font-size:14px; margin:6px 0 10px; }
+  .status{ display:inline-block; font-family:var(--font-mono); font-size:11px; padding:3px 10px; border-radius:999px; margin-bottom:10px; }
+  .done .status{ background:var(--good-bg); color:var(--good); }
+  .partial .status{ background:var(--partial-bg); color:var(--partial); }
+  .miss .status{ background:var(--miss-bg); color:var(--miss); }
+  .check-note{ font-size:12.5px; color:var(--text-soft); margin:0; }
+  .score-overview{ background:var(--card); border:1px solid var(--line); border-radius:16px; padding:24px; margin:24px 0; }
+  .bars{ display:flex; flex-direction:column; gap:13px; }
+  .bar-row{ display:grid; grid-template-columns:150px 1fr 64px; gap:14px; align-items:center; }
+  .bar-label{ font-size:13px; }
+  .bar-track{ height:8px; background:var(--line); border-radius:999px; overflow:hidden; }
+  .bar-fill{ height:100%; background:var(--sales); border-radius:999px; width:0%; transition:width .35s ease; }
+  .bar-score{ font-family:var(--font-mono); font-size:12px; color:var(--text-soft); text-align:right; }
+  .report-grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:16px; margin:24px 0; }
+  .report-card{ background:var(--card); border:1px solid var(--line); border-radius:14px; padding:20px 22px; }
+  .report-card h3{ font-family:var(--font-display); font-size:16px; margin:0 0 12px; padding-bottom:12px; border-bottom:1px solid var(--line); }
+  .report-card ul{ padding-left:20px; margin:0; }
+  .report-card li{ font-size:13.5px; margin-bottom:8px; }
+  .transcript{ margin-top:24px; }
+  .round-label{ font-family:var(--font-mono); font-size:11px; letter-spacing:.2em; color:var(--text-soft); text-transform:uppercase; margin:22px 0 10px; display:flex; align-items:center; gap:12px; }
+  .round-label::before,.round-label::after{ content:''; flex:1; height:1px; background:var(--line); }
+  .rewrite-box{ background:var(--gold-bg); border-left:4px solid var(--gold); border-radius:0 14px 14px 0; padding:20px 24px; margin:24px 0; }
+  .rewrite-box .label,.callout .label,.prompt-box .label{ font-family:var(--font-mono); font-size:11px; letter-spacing:.2em; text-transform:uppercase; margin-bottom:10px; }
+  .rewrite-box .label{ color:var(--gold); }
+  .rewrite-box p{ margin:0; font-size:14px; }
+  .callout{ border-radius:14px; padding:20px 24px; background:var(--sales); color:#EAF3EF; margin-top:18px; }
+  .callout p{ margin:0; font-size:14px; }
+  .prompt-box{ background:#E6E3D7; border:1px dashed var(--gold); border-radius:14px; padding:20px 22px; margin-top:22px; }
+  .prompt-box pre{ white-space:pre-wrap; font-family:var(--font-mono); font-size:12px; line-height:1.7; margin:0; color:#3E4038; }
+  footer{ padding:28px 48px 54px; color:var(--text-soft); font-family:var(--font-mono); font-size:11px; text-align:center; letter-spacing:.08em; }
+  @media (max-width:680px){ section,.hero{ padding:34px 22px; } .bar-row{ grid-template-columns:104px 1fr 50px; } .round-head{ align-items:flex-start; flex-direction:column; } }
+</style>
+</head>
+<body>
+<div class="page">
+  <header class="hero">
+    <div class="hero-top">
+      <div>
+        <div class="eyebrow">AI Loan Sales Coach · Interactive Prototype</div>
+        <h1>信貸電銷陪練工具</h1>
+        <p>v0.2 將原本的靜態教練報告往前補上「使用者輸入流程」：業務填入四輪回覆，系統依據問對問題規格產生訓練報告。</p>
+        <div class="chips">
+          <span class="chip">情境：利率反對處理</span>
+          <span class="chip">輸入：四輪業務回覆</span>
+          <span class="chip">輸出：訓練報告 HTML</span>
+          <span class="chip">目前：規則式檢核模擬 AI</span>
+        </div>
+      </div>
+      <div class="version-card">
+        <div class="label">Version</div>
+        <div class="num">v0.2</div>
+      </div>
+    </div>
+  </header>
+
+  <section class="flow">
+    <div class="section-head">
+      <div class="section-num">01 — 使用流程</div>
+      <h2>使用者怎麼產生報告</h2>
+      <p>這一版先用固定客戶反應與規則式評分，展示「練習輸入 → 關鍵問題檢核 → 報告輸出」的完整產品動線。</p>
+    </div>
+    <div class="flow-grid">
+      <div class="flow-card"><div class="step">STEP 1</div><h3>選情境</h3><p>目前固定為「利率反對處理」。</p></div>
+      <div class="flow-card"><div class="step">STEP 2</div><h3>填回覆</h3><p>業務依序輸入四輪會怎麼回客戶。</p></div>
+      <div class="flow-card"><div class="step">STEP 3</div><h3>檢核問題</h3><p>系統檢查有沒有問到五個關鍵追問。</p></div>
+      <div class="flow-card"><div class="step">STEP 4</div><h3>產生報告</h3><p>輸出逐字稿、評分、改寫與下一步練習重點。</p></div>
+    </div>
+  </section>
+
+  <section class="practice">
+    <div class="section-head">
+      <div class="section-num">02 — 練習輸入頁</div>
+      <h2>利率反對處理</h2>
+      <p>請把你會怎麼回覆客戶的內容填進四個輸入框。可以先按「填入範例」測試產出效果。</p>
+    </div>
+
+    <div class="scenario-card">
+      <h3>客戶角色卡</h3>
+      <p>35 歲上班族，想貸 80 萬，用途是整合負債與生活週轉。已詢問他行但條件未完全確認，對電銷有防備心，表面上在意利率，實際也在意月付金與撥款速度。</p>
+      <div class="scenario-facts">
+        <div class="fact">貸款需求：80 萬</div>
+        <div class="fact">用途：整合負債＋生活週轉</div>
+        <div class="fact">客戶情緒：防備、怕浪費時間</div>
+        <div class="fact">隱性需求：月付金、撥款速度、可比較的真實數字</div>
+      </div>
+    </div>
+
+    <div class="practice-grid">
+      <div class="round">
+        <div class="round-head"><span class="round-title">Round 1</span><span class="round-hint">目標：先承接情緒，不急著硬推</span></div>
+        <div class="dialogue">
+          <div class="msg customer"><span class="speaker">客戶</span><p>你們利率太高了吧，我朋友說別家銀行比較低。</p></div>
+          <textarea id="r1" placeholder="請輸入你的第 1 輪業務回覆"></textarea>
+        </div>
+      </div>
+      <div class="round">
+        <div class="round-head"><span class="round-title">Round 2</span><span class="round-hint">目標：確認比較基準</span></div>
+        <div class="dialogue">
+          <div class="msg customer"><span class="speaker">客戶</span><p>其實我也不是要跟你比價格而已啦，主要是我已經有問過一家了，如果你們條件沒有比較好，那我就沒必要再花時間了。你們利率大概可以到多少？</p></div>
+          <textarea id="r2" placeholder="請輸入你的第 2 輪業務回覆"></textarea>
+        </div>
+      </div>
+      <div class="round">
+        <div class="round-head"><span class="round-title">Round 3</span><span class="round-hint">目標：釐清真正疑慮</span></div>
+        <div class="dialogue">
+          <div class="msg customer"><span class="speaker">客戶</span><p>我先不講銀行名字好了，反正有去問過。他們說年利率大概 3% 多一點，期數是 6 年，月付大概一萬三。我比較怕的是每個月要繳多少，還有急用錢時多久能撥下來。</p></div>
+          <textarea id="r3" placeholder="請輸入你的第 3 輪業務回覆"></textarea>
+        </div>
+      </div>
+      <div class="round">
+        <div class="round-head"><span class="round-title">Round 4</span><span class="round-hint">目標：給下一步，不過度承諾</span></div>
+        <div class="dialogue">
+          <div class="msg customer"><span class="speaker">客戶</span><p>我比較想知道的是，如果我這 80 萬真的送件給你們，大概多久可以知道核准結果、撥款下來？還有你們最低利率大概多少，給我一個範圍我自己評估一下。</p></div>
+          <textarea id="r4" placeholder="請輸入你的第 4 輪業務回覆"></textarea>
+        </div>
+      </div>
+    </div>
+
+    <div class="actions">
+      <button class="btn-secondary" type="button" onclick="fillSample()">填入範例回覆</button>
+      <button class="btn-primary" type="button" onclick="generateReport()">產生訓練報告</button>
+      <button class="btn-ghost" type="button" onclick="clearInputs()">清空</button>
+    </div>
+  </section>
+
+  <section id="report" class="report">
+    <div class="report-hero">
+      <div>
+        <div class="eyebrow">03 — 訓練報告</div>
+        <h2>利率反對處理 · 教練回饋</h2>
+        <p>本報告根據四輪業務回覆，自動檢查關鍵問題、語氣與下一步推進。v0.2 以規則式檢核模擬，後續可替換為 LLM 評分。</p>
+      </div>
+      <div class="score-badge"><div class="label">總分</div><div id="totalScore" class="num">--</div><div class="denom">/ 100</div></div>
+    </div>
+
+    <div class="section-head">
+      <div class="section-num">A — 關鍵問題檢核</div>
+      <h2>5 個關鍵問題</h2>
+      <p>這是「利率反對處理」標準動線。狀態會依照業務回覆內容自動標記。</p>
+    </div>
+    <div id="checklist" class="checklist-grid"></div>
+
+    <div class="score-overview">
+      <div class="section-head" style="margin-bottom:18px;">
+        <div class="section-num">B — 評分細項</div>
+        <h2>能力面向</h2>
+      </div>
+      <div class="bars" id="scoreBars"></div>
+    </div>
+
+    <div class="report-grid">
+      <div class="report-card"><h3>表現好的地方</h3><ul id="goodList"></ul></div>
+      <div class="report-card"><h3>漏問的關鍵問題</h3><ul id="missList"></ul></div>
+      <div class="report-card"><h3>可以改善的地方</h3><ul id="improveList"></ul></div>
+    </div>
+
+    <div class="rewrite-box">
+      <div class="label">建議改寫</div>
+      <p id="rewriteText"></p>
+    </div>
+
+    <div class="callout">
+      <div class="label">下一次練習重點</div>
+      <p id="nextFocus"></p>
+    </div>
+
+    <div class="transcript">
+      <div class="section-head" style="margin-top:32px;">
+        <div class="section-num">C — 逐字稿</div>
+        <h2>本次四輪對話</h2>
+      </div>
+      <div id="transcript"></div>
+    </div>
+
+    <div class="prompt-box">
+      <div class="label">下一版 LLM Prompt 規格</div>
+      <pre id="llmPrompt"></pre>
+    </div>
+  </section>
+
+  <footer>AI Loan Sales Coach v0.2 · 四輪輸入版互動原型 · 目前為規則式檢核</footer>
+</div>
+
+<script>
+const customerLines = [
+  '你們利率太高了吧，我朋友說別家銀行比較低。',
+  '其實我也不是要跟你比價格而已啦，主要是我已經有問過一家了，如果你們條件沒有比較好，那我就沒必要再花時間了。你們利率大概可以到多少？',
+  '我先不講銀行名字好了，反正有去問過。他們說年利率大概 3% 多一點，期數是 6 年，月付大概一萬三。我比較怕的是每個月要繳多少，還有急用錢時多久能撥下來。',
+  '我比較想知道的是，如果我這 80 萬真的送件給你們，大概多久可以知道核准結果、撥款下來？還有你們最低利率大概多少，給我一個範圍我自己評估一下。'
+];
+
+const questions = [
+  {
+    id:'Q1',
+    title:'客戶比較的是哪一家銀行？',
+    done: [/哪一[家間]/, /比較.*銀行/, /問過.*哪/, /哪.*銀行/],
+    partial: [/他行/, /別家/, /銀行/],
+    noteDone:'有嘗試確認客戶目前比較的銀行或條件來源。',
+    notePartial:'有提到他行或比較，但還可以更明確問「目前比較哪一家」。',
+    noteMiss:'未確認客戶到底拿哪一家銀行作比較，後續回覆容易失準。'
+  },
+  {
+    id:'Q2',
+    title:'對方給的利率大約是多少？',
+    done: [/對方.*利率/, /利率.*多少/, /幾趴/, /幾%/, /3%/, /3趴/],
+    partial: [/利率/],
+    noteDone:'有確認對方利率或客戶手上條件，能建立比較基準。',
+    notePartial:'有提到利率，但沒有明確追問對方條件。',
+    noteMiss:'未追問對方利率，無法判斷客戶的「利率太高」是實際比較還是感覺。'
+  },
+  {
+    id:'Q3',
+    title:'對方的期數與月付金是多少？',
+    done: [/期數/, /幾年/, /幾期/, /月付/, /月繳/, /每月/, /一萬三/, /72期/, /84期/],
+    partial: [/負擔/, /還款/, /繳多少/],
+    noteDone:'有把比較焦點從利率延伸到期數與月付金。',
+    notePartial:'有觸及還款負擔，但還可以具體確認期數與月付。',
+    noteMiss:'未確認期數與月付金，容易只停留在利率高低。'
+  },
+  {
+    id:'Q4',
+    title:'最在意利率／額度／月付金，還是撥款速度？',
+    done: [/最在意/, /比較在意/, /重點.*利率.*額度|重點.*月付|重點.*撥款/, /利率.*額度.*月付|利率.*月付.*撥款/],
+    partial: [/月付/, /額度/, /撥款/, /速度/, /利率/],
+    noteDone:'有釐清真正決策因素，不只停在表面的利率反對。',
+    notePartial:'有回應其中一個因素，但可以明確問「你最在意的是哪一個」。',
+    noteMiss:'未釐清客戶真正疑慮，容易變成單純價格戰。'
+  },
+  {
+    id:'Q5',
+    title:'若條件接近，是否願意送件比較？',
+    done: [/願意.*送件/, /條件接近/, /送件.*比較/, /先送.*看看/, /試算.*比較/, /拿到.*結果.*比較/],
+    partial: [/送件/, /試算/, /比較/, /評估/],
+    noteDone:'有提出低壓力下一步，讓客戶取得可比較的實際數字。',
+    notePartial:'有提到送件或試算，但邀約還可以更具體。',
+    noteMiss:'沒有把對話推進到下一步，容易停在客戶「再想想」。'
+  }
+];
+
+function getInputs(){ return [1,2,3,4].map(i => document.getElementById('r'+i).value.trim()); }
+function matchAny(text, patterns){ return patterns.some(p => p.test(text)); }
+function evaluateQuestions(text){
+  return questions.map(q => {
+    const done = matchAny(text, q.done);
+    const partial = !done && matchAny(text, q.partial);
+    return {
+      ...q,
+      status: done ? 'done' : partial ? 'partial' : 'miss',
+      label: done ? '已問到' : partial ? '部分問到' : '未問到',
+      note: done ? q.noteDone : partial ? q.notePartial : q.noteMiss
+    };
+  });
+}
+function contains(text, arr){ return arr.some(word => text.includes(word)); }
+function scoreRubric(inputs, checks){
+  const all = inputs.join(' ');
+  const emotion = Math.min(20, (contains(all,['了解','理解','我懂','謝謝','擔心','疑慮','坦白','確實']) ? 12 : 4) + (contains(all,['不會硬推','不一定','不能保證','看審核','先確認']) ? 4 : 0) + (inputs.filter(x=>x.length>15).length));
+  const doneCount = checks.filter(c=>c.status==='done').length;
+  const partialCount = checks.filter(c=>c.status==='partial').length;
+  const keyQuestion = Math.min(30, doneCount*6 + partialCount*3);
+  const clarify = Math.min(20, (checks[2].status!=='miss' ? 6 : 0) + (checks[3].status!=='miss' ? 8 : 0) + (contains(all,['月付','撥款','額度','速度','用途','收支','負擔']) ? 6 : 0));
+  const next = Math.min(20, (checks[4].status==='done' ? 11 : checks[4].status==='partial' ? 6 : 0) + (contains(all,['撥款','工作天','結果','資料','補件','試算','送件']) ? 7 : 0) + (contains(all,['再決定','不收費','比較看看','你覺得']) ? 2 : 0));
+  const tone = Math.min(10, 6 + (contains(all,['請問','方便','可以嗎','您覺得','跟您坦白']) ? 2 : 0) - (all.split('？').length > 7 ? 2 : 0) + (contains(all,['一定','保證','最低']) ? -1 : 1));
+  return {
+    emotion: Math.max(0, emotion),
+    keyQuestion: Math.max(0, keyQuestion),
+    clarify: Math.max(0, clarify),
+    next: Math.max(0, next),
+    tone: Math.max(0, tone)
+  };
+}
+function statusClass(s){ return s === 'done' ? 'done' : s === 'partial' ? 'partial' : 'miss'; }
+function renderList(id, items){ document.getElementById(id).innerHTML = items.map(x=>`<li>${x}</li>`).join(''); }
+function generateReport(){
+  const inputs = getInputs();
+  const all = inputs.join(' ');
+  if(inputs.some(x => x.length < 6)){
+    alert('請先填完四輪業務回覆，每格至少輸入一句話。');
+    return;
+  }
+  const checks = evaluateQuestions(all);
+  const scores = scoreRubric(inputs, checks);
+  const total = scores.emotion + scores.keyQuestion + scores.clarify + scores.next + scores.tone;
+  document.getElementById('totalScore').textContent = total;
+  document.getElementById('checklist').innerHTML = checks.map(c => `
+    <div class="check-card ${statusClass(c.status)}">
+      <div class="check-num">${c.id}</div>
+      <div class="check-q">${c.title}</div>
+      <span class="status">${c.label}</span>
+      <p class="check-note">${c.note}</p>
+    </div>
+  `).join('');
+  const barData = [
+    ['回應客戶情緒', scores.emotion, 20],
+    ['問到關鍵問題', scores.keyQuestion, 30],
+    ['釐清真正疑慮', scores.clarify, 20],
+    ['提供下一步', scores.next, 20],
+    ['語氣自然不硬推', scores.tone, 10]
+  ];
+  document.getElementById('scoreBars').innerHTML = barData.map(([label,score,max]) => `
+    <div class="bar-row"><span class="bar-label">${label}</span><div class="bar-track"><div class="bar-fill" style="width:${Math.round(score/max*100)}%"></div></div><span class="bar-score">${score} / ${max}</span></div>
+  `).join('');
+  const good = [];
+  if(scores.emotion >= 12) good.push('有先承接客戶對利率的疑慮，沒有一開始就反駁。');
+  if(checks[3].status !== 'miss') good.push('有嘗試釐清客戶真正重視的是利率、月付金、額度或速度。');
+  if(checks[4].status !== 'miss') good.push('有把對話往下一步推進，而不是只停留在口頭說明。');
+  if(contains(all,['撥款','工作天','結果'])) good.push('有回應客戶在意的撥款時間與處理進度。');
+  if(good.length===0) good.push('有完成四輪回覆，已經具備可被檢討與優化的訓練素材。');
+  const misses = checks.filter(c=>c.status==='miss').map(c=>c.title);
+  const missItems = misses.length ? misses.map(x=>'未明確處理：「'+x+'」') : ['五個關鍵問題都有觸及，下一步可以練習問得更自然、一次只問一題。'];
+  const improve = [];
+  if(inputs.some(x => (x.match(/？/g)||[]).length >= 3)) improve.push('有些回覆一次拋出太多問題，容易讓客戶覺得像被審問；建議一次只問一個。');
+  if(!contains(all,['80萬','80 萬'])) improve.push('回覆時要盡量使用客戶實際的「80 萬」需求，避免用其他金額舉例造成混淆。');
+  if(!contains(all,['範圍','不能保證','看審核','不一定'])) improve.push('客戶要求利率範圍時，建議誠實校準預期，不要只說「要審核才知道」。');
+  if(!contains(all,['整合負債','負債'])) improve.push('客戶是整合負債情境，應提醒利率會受負債與信用條件影響，避免過度承諾。');
+  if(improve.length===0) improve.push('下一步可以把回覆縮短，讓語氣更像真實電話中的自然對話。');
+  renderList('goodList', good);
+  renderList('missList', missItems);
+  renderList('improveList', improve);
+  const rewrite = '「我了解，利率確實會影響您要不要送件。跟您坦白說，因為您這次是整合負債，最終利率會看目前負債、信用狀況跟還款能力，我不能直接保證一定比別家低。不過我們可以先用您 80 萬的需求，幫您看實際可核條件、期數、月付金跟撥款時間。您拿到真實數字後，再跟另一家比較，這樣判斷會比只聽口頭利率更準。您覺得可以先這樣看嗎？」';
+  document.getElementById('rewriteText').textContent = rewrite;
+  const missedCount = checks.filter(c=>c.status==='miss').length;
+  document.getElementById('nextFocus').textContent = missedCount >= 3 ? '下一次先練「問對問題的順序」：先問比較對象，再問利率／期數／月付，最後才邀約送件。' : '下一次練習把問題問得更短、更像聊天：一次只問一個問題，並用客戶的 80 萬需求做回應。';
+  document.getElementById('transcript').innerHTML = inputs.map((reply, i) => `
+    <div class="round-label">回合 ${i+1}</div>
+    <div class="msg customer"><span class="speaker">客戶</span><p>${escapeHtml(customerLines[i])}</p></div>
+    <div class="msg"><span class="speaker" style="color:var(--sales)">業務</span><p>${escapeHtml(reply)}</p></div>
+  `).join('');
+  document.getElementById('llmPrompt').textContent = buildPrompt(inputs);
+  document.getElementById('report').classList.add('visible');
+  document.getElementById('report').scrollIntoView({behavior:'smooth'});
+}
+function buildPrompt(inputs){
+return `你是一位 AI 信貸電銷教練。請根據以下四輪對話，產生一份訓練報告。\n\n評分標準：\n- 是否有回應客戶情緒：20 分\n- 是否有問到關鍵問題：30 分\n- 是否有釐清真正疑慮：20 分\n- 是否有提供下一步：20 分\n- 語氣是否自然、不硬推：10 分\n\n請檢查五個關鍵問題：\n1. 客戶目前比較的是哪一家銀行？\n2. 對方給的利率大約是多少？\n3. 對方期數與月付金是多少？\n4. 客戶最在意利率、額度、月付金，還是撥款速度？\n5. 如果條件接近，客戶是否願意送件比較？\n\n四輪對話：\n${inputs.map((r,i)=>`客戶${i+1}：${customerLines[i]}\n業務${i+1}：${r}`).join('\n\n')}\n\n請輸出：總分、五個關鍵問題檢核、表現好的地方、漏問問題、改善建議、建議改寫、下一次練習重點。`;
+}
+function escapeHtml(str){ return str.replace(/[&<>'"]/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[m])); }
+function fillSample(){
+  document.getElementById('r1').value = '我了解，利率確實是很多客戶會比較的重點。不過實際利率還是要看審核結果，我可以先幫您初步看一下條件。';
+  document.getElementById('r2').value = '您目前比較的是哪一家銀行？對方給您的利率大約是多少？您最在意的是利率、額度、月付金，還是撥款速度？';
+  document.getElementById('r3').value = '謝謝你願意跟我說你的想法。以你 80 萬需求來看，我想先確認你比較在意月付金，還是希望撥款速度快一點？如果以不同期數試算，月付金會有差異，我可以先幫你看一個比較接近的方案。';
+  document.getElementById('r4').value = '我理解你的疑慮。撥款的話，資料齊全最快約兩個工作天會有結果；如果需要補件可能會到三到四天。利率我不能保證一定比別家低，因為整合負債會看信用跟負債狀況。不過如果條件接近，你會願意先送件拿實際數字，再跟另一家比較看看嗎？';
+}
+function clearInputs(){
+  [1,2,3,4].forEach(i=>document.getElementById('r'+i).value='');
+  document.getElementById('report').classList.remove('visible');
+}
+</script>
+</body>
+</html>
