@@ -18,6 +18,11 @@ AI Loan Sales Coach
 ### Coaching Feedback Report
 ![Coaching Feedback](screenshots/coaching-feedback.png)
 
+## Documentation
+
+- [Prompt / Agent Design Logic](docs/prompt-design.md)
+- [使用者流程：如何產生訓練報告](docs/user-flow.zh-TW.md)
+
 ---
 
 1. Project Overview
