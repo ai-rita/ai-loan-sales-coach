@@ -244,3 +244,10 @@ v0.2	Completed	四輪輸入互動版 Demo
 v0.3	Planned	LLM 回饋生成
 v0.4	Planned	多情境陪練
 v1.0	Planned	Sales Training Dashboard
+---
+## Disclaimer
+
+This project is a portfolio prototype built with simulated loan telesales scenarios.  
+It does not contain real customer data, internal bank policies, confidential sales scripts, or proprietary approval rules.
+
+本專案為履歷作品原型，所有客戶情境與對話內容皆為模擬資料，不包含真實客戶資料、銀行內部規範、公司話術或授信審核規則。
